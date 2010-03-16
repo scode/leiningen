@@ -60,7 +60,8 @@
       "x86" :x86
       "i386" :x86
       "arm" :arm
-      "sparc" :sparc})
+      "sparc" :sparc
+      "FreeBSD" :freebsd})
 
 (defn get-os
   "Returns a keyword naming the host OS."
