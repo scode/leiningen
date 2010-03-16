@@ -75,6 +75,11 @@
     (.setArtifactId (name dep))
     (.setVersion version)))
 
+(defn make-jar-dependency [[dep path]]
+  (doto (make-dependency [dep path])
+    (.setScope "system")
+    (.setSystemPath path)))
+
 (defn make-repository [[id url]]
   (doto (Repository.)
     (.setId id)
@@ -104,6 +109,8 @@
     ;; TODO: add leiningen as a test-scoped dependency
     (doseq [dep (:dependencies project)]
       (.addDependency model (make-dependency dep)))
+    (doseq [jardep (:jar-dependencies project)]
+      (.addDependency model (make-jar-dependency jardep)))
     (doseq [repo (concat (:repositories project) default-repos)]
       (.addRepository model (make-repository repo)))
     (when-let [scm (make-git-scm (file (:root project) ".git"))]
